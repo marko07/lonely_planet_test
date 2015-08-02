@@ -25,16 +25,6 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 group :development, :test do
-  gem 'rails_best_practices'
-  gem 'rubocop', require: false
-  gem 'rubocop-rspec'
-  gem 'thin'
-  gem 'pry-rails'
-  gem 'selenium-webdriver'
-  gem 'better_errors'
-end
-
-group :test do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl_rails'
@@ -45,4 +35,12 @@ group :test do
   gem 'simplecov-rcov'
   gem 'poltergeist'
   gem 'phantomjs', require: 'phantomjs/poltergeist'
+  gem 'rails_best_practices'
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec'
+  gem 'thin'
+  gem 'pry-rails'
+  gem 'selenium-webdriver'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end

@@ -1,0 +1,86 @@
+# Sounds like rubocop-git processes code in tempfiles that do
+# not meet Ruby's formatting conventions.  Ignore this rule
+# till an upstream fix is available.
+Style/FileName:
+  Enabled: false
+
+# Run rails cops that are disabled by default, but make sense
+# because this is a Rails project.  It's not possible to run
+# them from rubocop-git via a command line option.
+AllCops:
+  RunRailsCops: true
+
+# Not sure we have consensus on this rule.
+Style/StringLiterals:
+  Enabled: false
+
+# Not sure we have consensus on this rule either.
+Style/SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+# Including the comma reduces noisy diffs when adding an item and annoying
+# errors when the first run lacks the comma.
+Style/TrailingComma:
+  EnforcedStyleForMultiline: comma
+
+# Not sure we have consensus on using "_" for unused block params.
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+# EN uses "raise" not "fail" for error handling.  Not sure whether we have
+# a precedent for re-raising or not, but Rubocop doesn't give us the option
+# to not care just about re-raises.  I'd be open to disabling this entirely,
+# but consolidating on "raise" makes sense to me.  Hrm... looks like the
+# default of semantic is flagging a raise that is not re-raising.  Might be
+# a bug in the cop?
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+# Most classes and modules in a Rails project do not really need documentation.
+# Furthermore, I don't want to encourage low-quality, hurried documentation or
+# make requirements too heavy-weight.  Leave this to the developer's
+# discretion.
+Style/Documentation:
+  Enabled: false
+
+# We have a strong precedent of the Ruby 1.8-style trailing dot on continued
+# lines.  We should continue with that until we want to do a wholesale find-
+# and-replace.
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+# By default, Style/IndentHash enforces "special_inside_parentheses":
+#
+#    Use 2 spaces for indentation in a hash, relative to the first
+#    position after the preceding left parenthesis.
+#
+# But this results in hashes that are pushed far to the right,
+# increasing the likelyhood of long lines.  And it is impractical for
+# keeping diffs clean, because changes to the opening line of hash
+# would move all the other lines of the hash to maintain alignment.
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+# We're getting warnings from Style/IfUnlessModifier even when the
+# line length exceeds MaxLineLength, which is annoying because for
+# non-trivial one-line bodies, I'd rather see the block-style
+# if-statement so the "if" won't be hiding at the end of the line.
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Nesting a class in its namespace module is not always convenient.
+# Sometimes it results in excessive indentation.  It also changes the
+# familiar two-space indentation for method definitions.  On the other
+# hand, sometimes it's necessary to refer to other constants in the
+# enclosing module(s), making the nested syntax more desirable.  Leave
+# this to the developer's discretion.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Using "\\" instead of "+" or "<<" to concatenate strings is faster,
+# but it's less common, doesn't compose syntactically like "+", and
+# some ruby devs have asked what it even means.  Reserve this
+# optimization for performance-critical code sections and not enforce
+# this codebase-wide.
+Style/LineEndConcatenation:
+  Enabled: false
