@@ -3,3 +3,25 @@
     <%= @error %>
   </span>
 </div>
+
+<div>
+  <div class="taxonomy_div">
+    <% if Taxonomy.all.empty? %>
+      <span>Please, tell me which is the path for Taxonomy file</span>
+      <%= form_for Taxonomy.new, remote: true do |f| %>
+        <%= f.text_field :path %>
+        <%= f.submit "Set it!!" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="destinations_div">
+    <% if Destination.all.empty? %>
+      <span>Please, tell me which is the path for Destinations file</span>
+      <%= form_for Destination.new, remote: true do |f| %>
+        <%= f.text_field :path %>
+        <%= f.submit "Set it!!" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

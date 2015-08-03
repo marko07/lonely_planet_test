@@ -1,16 +1,8 @@
 require 'spec_helper'
 
 describe 'Missing files error' do
-  before do
-  end
 
-  it 'returns a message when no taxony.xml file is found' do
-    visit root_path
-    error_file_message
-  end
-
-  it 'returns a message when no destinations.xml file is found' do
-    data = "<?xml version='1.0' encoding='utf-8'?>
+  let (:taxonomy) { "<?xml version='1.0' encoding='utf-8'?>
               <taxonomies>
                 <taxonomy>
                   <taxonomy_name>World</taxonomy_name>
@@ -21,9 +13,18 @@ describe 'Missing files error' do
                   </taxonomy>
                 </taxonomy>
               </taxonomies>"
+  }
 
-    allow(File).to receive(:exist?).and_return(true, false)
-    allow(File).to receive(:read).with("#{Rails.root}/lib/files/taxonomy.xml").and_return(data)
+  it 'returns a message when no taxonomy.xml file is found' do
+    visit root_path
+    error_file_message
+  end
+
+  it 'returns a message when no destinations.xml file is found' do
+    Taxonomy.create!(
+      path: '/lib/taxonomy/taxonomy.xml'
+    )
+    allow(File).to receive(:read).with(Taxonomy.current_path).and_return(taxonomy)
 
     visit root_path
     error_file_message

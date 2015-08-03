@@ -10,19 +10,21 @@ class DashboardController < ApplicationController
   end
 
   def read_files
-    if File.exist?("#{Rails.root}/lib/files/taxonomy.xml")
-      @taxonomy = File.read("#{Rails.root}/lib/files/taxonomy.xml")
+    if Taxonomy.all.any? && File.exist?(Taxonomy.current_path)
+      @taxonomy = File.read(Taxonomy.current_path)
 
-      if File.exist?("#{Rails.root}/lib/files/destionations.xml")
-        @destination = File.read("#{Rails.root}/lib/files/destionations.xml")
+      if Destination.all.any && File.exist?(Destination.current_path)
+        @destination = File.read(Destination.current_path)
       else
-        Rails.logger.error 'There was an error loading destinations.xml file'
-        @destination = nil
+        log_error("Destinations", @destination)
       end
-
     else
-      Rails.logger.error 'There was an error loading @taxonomy.xml file'
-      @taxonomy = nil
+      log_error("Taxonomy", @taxonomy)
     end
+  end
+
+  def log_error(file, resource)
+    Rails.logger.error "There was an error loading #{file} file"
+    resource = nil
   end
 end
