@@ -1,28 +1,54 @@
-== README
+=== README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+== This is a Test application for Lonely Planet company
 
-Things you may want to cover:
+Steps to run the application on your local environment:
 
-* Ruby version
+1. Setup RVM to handle muntiple ruby applications.
 
-* System dependencies
+  https://rvm.io/
 
-* Configuration
+2. Install Ruby -v 2.1.0 and all the dependencies.
 
-* Database creation
+3. Do a checkout of the project.
 
-* Database initialization
+4. Run the command 'bundle install' to install all the gems required.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+5. Run the server. Most commonly Webrick
+    'rails server'
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+== Application Notes
+
+The application already has pushed two example files for Destinations.xml and
+Taxonomy.xml, these files are in
+ "lib/files/destination/destinations.xml"
+and
+ "lib/files/taxonomy/taxonomy.xml"
+
+When you start the application, you will see that it requires both files, it
+will be asking you to set the path of the files you want to run (you can use these
+ones if you like). After both paths are set, you can reload the page and
+start looking the great information stored on the files, but now in your browser :)
+
+You can choose any Destination clicking its name on the navigation tree in the right
+side of the browser, once you click a Destination, the information will be replace it
+and you are now availbale to see it. Also, to add a little bit more fun, we are
+hidden/showing the children of the Destination clicked.
+
+== Developer Notes
+
+Sadly, the real short time (about 6 hours total) we had to develop this application,
+it was imposible do it with all my coding criterias.
+
+= Things we want to change/add:
+
+* Add more tests. (A lot more)
+* Have all the functionality based on 100% TDD (TDD with Integration tests FTW!).
+* Add more security on the fields to set the paths for the files.
+* Change the HTML template to use SLIM.
+* On the navigation tree, instead of the Destination hide/show its children, we want to have an
+  icon to specificaly do this behavior.
+* Do a little bit more of refactoring.
+* Definitely improve the commits.
+* Push it to heroku.
