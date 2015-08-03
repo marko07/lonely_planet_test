@@ -1,7 +1,19 @@
 class DashboardController < ApplicationController
+  include XmlToHtml
+  include ReadFiles
+
   def index
-    read_files
-    return @error = error_message if @destination.nil? || @taxonomy.nil?
+    if params[:destination_selected].nil?
+      read_files
+      return @error = error_message if @destinations.nil? || @taxonomy.nil?
+      @taxonomy_html =
+        "<ul class='nav nav-list'>" \
+        "<li><label class='tree-toggler nav-header'>World</label>"
+      hash_to_html(@taxonomy["taxonomies"]["taxonomy"]["node"])
+      @taxonomy_html.html_safe
+    end
+
+    info_to_display
   end
 
   private
@@ -9,22 +21,17 @@ class DashboardController < ApplicationController
     'There is not any information to display, sorry about that!'
   end
 
-  def read_files
-    if Taxonomy.all.any? && File.exist?(Taxonomy.current_path)
-      @taxonomy = File.read(Taxonomy.current_path)
-
-      if Destination.all.any && File.exist?(Destination.current_path)
-        @destination = File.read(Destination.current_path)
-      else
-        log_error("Destinations", @destination)
+  def info_to_display
+    read_destinations if @destinations.nil?
+    if params[:destination_selected]
+      @destinations["destinations"]["destination"].each do |section|
+        if section["atlas_id"] == params[:destination_selected]
+          @destination_selected = section
+          return
+        end
       end
     else
-      log_error("Taxonomy", @taxonomy)
+      @destination_selected = @destinations["destinations"]["destination"].first
     end
-  end
-
-  def log_error(file, resource)
-    Rails.logger.error "There was an error loading #{file} file"
-    resource = nil
   end
 end

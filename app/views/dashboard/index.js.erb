@@ -1,0 +1,4 @@
+$('#header h1').replaceWith('<h1>Lonely Planet: <%= @destination_selected["title"] %></h1>');
+
+$('#main').replaceWith(
+  "<%= escape_javascript(render(:partial => "dashboard/main")).html_safe %>");
